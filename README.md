@@ -65,7 +65,7 @@ Spectrum delivers **at-least-once**. Dedupe is per instance; a new Vercel isolat
 1. Import this repo and set the environment variables above (Production + Preview as needed).
 2. Deploy. Confirm `https://<project>.vercel.app/api/spectrum/webhook` returns signature errors (400/401) for unsigned POSTs, not a 404.
 3. Register that URL in Spectrum Cloud.
-4. Use the Node.js runtime (this route already sets `runtime = "nodejs"`). Spectrum’s iMessage client is not for Edge.
+4. Keep the default Node.js server runtime. Spectrum’s iMessage client is not for Edge, and this Next.js app enables Cache Components which cannot set a per-route `runtime` export.
 
 `GOOGLE_GENERATIVE_AI_API_KEY` is enough to try Gemini without extra paid providers.
 
