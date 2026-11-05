@@ -12,7 +12,14 @@ export async function POST(request: Request): Promise<Response> {
     body,
   });
 
-  const app = await getSpectrumApp();
+  let app;
+  try {
+    app = await getSpectrumApp();
+  } catch (error) {
+    console.error("Spectrum is not configured", error);
+    return new Response("Spectrum is not configured", { status: 503 });
+  }
+
   const pending: Promise<unknown>[] = [];
 
   const response = await app.webhook(rawRequest, (space, message) => {
