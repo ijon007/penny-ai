@@ -8,7 +8,7 @@ It is **not** a finance product. No bank tools, no money features — just a hel
 
 - Next.js App Router (TypeScript, Tailwind CSS)
 - [Photon Spectrum](https://photon.codes/docs/spectrum-ts/getting-started) (`spectrum-ts` + iMessage provider)
-- [Vercel AI SDK](https://ai-sdk.dev) with `@ai-sdk/google` (`gemini-2.5-flash`)
+- [Vercel AI SDK](https://ai-sdk.dev) with `@ai-sdk/google` (`gemini-3.5-flash`)
 
 ## Local setup
 
@@ -39,6 +39,7 @@ Copy `.env.example`. Never commit secrets.
 | `GOOGLE_GENERATIVE_AI_API_KEY` | Yes | Gemini API key ([Google AI Studio](https://aistudio.google.com/apikey)) |
 | `NEXT_PUBLIC_IMESSAGE_NUMBER` | Recommended | E.164 number for the landing CTA, e.g. `+15555550100` |
 | `PENNY_SYSTEM_PROMPT` | No | Override Penny’s system prompt |
+| `PENNY_GEMINI_MODEL` | No | Override Gemini model id (default `gemini-3.5-flash`) |
 
 ## Register the Photon webhook
 
