@@ -2,7 +2,6 @@ import { after } from "next/server";
 import { handlePennyMessage } from "@/lib/handle-message";
 import { getSpectrumApp } from "@/lib/spectrum";
 
-export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(request: Request): Promise<Response> {
