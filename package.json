@@ -9,9 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.112",
+    "ai": "^7.0.163",
     "next": "16.4.5",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "spectrum-ts": "^12.14.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
