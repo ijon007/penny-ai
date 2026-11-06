@@ -2,6 +2,7 @@ import type { FinanceSnapshot } from "@/lib/finance/types";
 
 /** Static labeled mock universe. Cloned per user; never claimed as live bank data. */
 export function createMockSeed(asOf = "2026-11-06"): FinanceSnapshot {
+  void asOf;
   return {
     label: "MOCK_DATA",
     accounts: [

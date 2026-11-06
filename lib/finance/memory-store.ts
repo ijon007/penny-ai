@@ -1,4 +1,4 @@
-import { cloneSnapshot, createMockSeed } from "@/lib/finance/mock-seed";
+import { getFinanceDataProvider } from "@/lib/finance/provider";
 import type { FinanceRepository } from "@/lib/finance/store";
 import type {
   FinanceSnapshot,
@@ -32,7 +32,7 @@ export class MemoryFinanceRepository implements FinanceRepository {
       updatedAt: now,
     };
     this.profiles.set(userId, profile);
-    this.snapshots.set(userId, cloneSnapshot(createMockSeed()));
+    this.snapshots.set(userId, getFinanceDataProvider().createInitialSnapshot());
     return profile;
   }
 

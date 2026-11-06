@@ -9,6 +9,8 @@ export type FinanceIntent =
   | { type: "chart" }
   | { type: "opt_in"; flag: "weekly" | "budget" | "recurring" }
   | { type: "opt_out"; flag: "weekly" | "budget" | "recurring" }
+  | { type: "set_timezone"; timezone: string }
+  | { type: "set_quiet_hours"; start: number; end: number }
   | {
       type: "expense";
       amountMinor: number;
@@ -82,6 +84,19 @@ export function parseFinanceIntent(text: string): FinanceIntent {
     return { type: "opt_out", flag: "recurring" };
   }
 
+  const tz = t.match(/timezone\s+([A-Za-z_\/]+)/i);
+  if (tz) {
+    return { type: "set_timezone", timezone: tz[1]! };
+  }
+  const quiet = lower.match(/quiet hours?\s+(\d{1,2})\s*-\s*(\d{1,2})/);
+  if (quiet) {
+    return {
+      type: "set_quiet_hours",
+      start: Math.min(23, Number(quiet[1])),
+      end: Math.min(23, Number(quiet[2])),
+    };
+  }
+
   // "spent $12.50 at Starbucks on coffee" / "$12.50 Starbucks"
   const moneyMatch = t.match(/\$?\d+(?:\.\d{1,2})?/);
   if (
@@ -140,5 +155,7 @@ Try:
 • "chart"
 • "opt in weekly summary" / "opt out weekly summary"
 • budget alerts & recurring reminders similarly
+• "timezone America/New_York" / "quiet hours 21-8"
 
-👍 confirms a draft. 👎 cancels. Reply in-thread to correct.`;
+Confirm mapping: 👍 / ❤️ / ✅ confirm · 👎 / ❌ cancel.
+Reply in-thread to correct amount/merchant/category.`;

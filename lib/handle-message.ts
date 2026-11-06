@@ -52,9 +52,6 @@ async function handleText(
   userId: string,
   text: string,
 ): Promise<void> {
-  const repo = getFinanceRepository();
-  const engine = new FinanceEngine(repo);
-
   // Corrections (threaded or keyword) against latest pending
   if (
     text.toLowerCase().includes("category") ||
@@ -119,9 +116,19 @@ async function handleText(
       case "spend":
         await message.reply(await eng.spendByCategory(userId));
         return;
-      case "budget":
+      case "budget": {
         await message.reply(await eng.budgetStatus(userId));
+        await space.send(
+          poll(
+            "Budget alerts?",
+            "Opt in budget alerts",
+            "Keep alerts off",
+            "Show dining budget",
+            "Show groceries budget",
+          ),
+        );
         return;
+      }
       case "recurring":
         await message.reply(await eng.recurringList(userId));
         return;
@@ -157,11 +164,29 @@ async function handleText(
             : intent.flag === "budget"
               ? { optInBudgetAlerts: on }
               : { optInRecurringReminders: on };
-        await repo.updateProfile(userId, patch);
+        await eng.ensureUser(userId);
+        await getFinanceRepository().updateProfile(userId, patch);
         await message.reply(
           on
             ? `Opted in to ${intent.flag} notices. I'll only message when you've opted in.`
             : `Opted out of ${intent.flag} notices.`,
+        );
+        return;
+      }
+      case "set_timezone": {
+        await getFinanceRepository().updateProfile(userId, {
+          timezone: intent.timezone,
+        });
+        await message.reply(`Timezone set to ${intent.timezone} (used for digests/quiet hours).`);
+        return;
+      }
+      case "set_quiet_hours": {
+        await getFinanceRepository().updateProfile(userId, {
+          quietHoursStart: intent.start,
+          quietHoursEnd: intent.end,
+        });
+        await message.reply(
+          `Quiet hours set to ${intent.start}:00–${intent.end}:00 local. Opt-in digests skip that window.`,
         );
         return;
       }
@@ -184,7 +209,7 @@ async function handleText(
         const prompt = await message.reply(eng.pendingPrompt(pending));
         if (prompt) {
           pending.confirmPromptMessageId = prompt.id;
-          await repo.updatePending(pending);
+          await getFinanceRepository().updatePending(pending);
         }
         // Offer category poll
         const sentPoll = await space.send(
@@ -205,7 +230,7 @@ async function handleText(
               : undefined;
           if (guid) {
             pending.pollMessageGuid = guid;
-            await repo.updatePending(pending);
+            await getFinanceRepository().updatePending(pending);
           }
         }
         return;
@@ -297,23 +322,25 @@ async function handleReaction(
 ): Promise<void> {
   if (message.content.type !== "reaction") return;
   const emoji = message.content.emoji;
-  const engine = new FinanceEngine(getFinanceRepository());
-  const pending = await engine.latestPending(userId);
-  if (!pending) return;
 
-  if (CONFIRM_TAPBACKS.has(emoji)) {
-    const txn = await engine.confirmPending(userId, pending.id);
-    await space.send(
-      txn
-        ? `Saved (MOCK): ${formatMoney(Math.abs(txn.amountMinor))} at ${txn.merchant}.`
-        : "Nothing to confirm.",
-    );
-    return;
-  }
-  if (CANCEL_TAPBACKS.has(emoji)) {
-    await engine.cancelPending(userId, pending.id);
-    await space.send("Cancelled — nothing saved.");
-  }
+  await withEngine(space, async (engine) => {
+    const pending = await engine.latestPending(userId);
+    if (!pending) return;
+
+    if (CONFIRM_TAPBACKS.has(emoji)) {
+      const txn = await engine.confirmPending(userId, pending.id);
+      await space.send(
+        txn
+          ? `Saved (MOCK): ${formatMoney(Math.abs(txn.amountMinor))} at ${txn.merchant}.`
+          : "Nothing to confirm.",
+      );
+      return;
+    }
+    if (CANCEL_TAPBACKS.has(emoji)) {
+      await engine.cancelPending(userId, pending.id);
+      await space.send("Cancelled — nothing saved.");
+    }
+  }, userId);
 }
 
 const POLL_CATEGORY: Record<string, CategoryId> = {
@@ -361,6 +388,8 @@ export async function handlePennyMessage(
   if (!userId) return;
 
   try {
+    void message.read().catch(() => undefined);
+
     // Durable idempotency when DB configured; memory in test.
     try {
       const repo = getFinanceRepository();

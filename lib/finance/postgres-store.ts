@@ -1,4 +1,4 @@
-import { cloneSnapshot, createMockSeed } from "@/lib/finance/mock-seed";
+import { getFinanceDataProvider } from "@/lib/finance/provider";
 import {
   PersistenceUnavailableError,
   type FinanceRepository,
@@ -118,7 +118,7 @@ export class PostgresFinanceRepository implements FinanceRepository {
       `INSERT INTO penny_finance_snapshots (user_id, snapshot)
        VALUES ($1, $2::jsonb)
        ON CONFLICT (user_id) DO NOTHING`,
-      [userId, JSON.stringify(cloneSnapshot(createMockSeed()))],
+      [userId, JSON.stringify(getFinanceDataProvider().createInitialSnapshot())],
     );
     const created = await db.query(
       `SELECT * FROM penny_finance_profiles WHERE user_id = $1`,

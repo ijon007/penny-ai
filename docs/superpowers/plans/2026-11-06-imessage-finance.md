@@ -17,9 +17,9 @@
 
 ### Tasks
 - [x] Plan + branch feat/imessage-finance from main
-- [ ] Money math + types + mock provider (TDD)
-- [ ] Repository (memory test + postgres) + migrations
-- [ ] Engine: capture, confirm, correct, queries, budgets, recurring
-- [ ] Webhook routing: text/attachment/reaction/poll + typing
-- [ ] Charts + cron digests + docs/config
-- [ ] Full test/build; push + merge
+- [x] Money math + types + mock provider (TDD)
+- [x] Repository (memory test + postgres) + migrations
+- [x] Engine: capture, confirm, correct, queries, budgets, recurring
+- [x] Webhook routing: text/attachment/reaction/poll + typing/read
+- [x] Charts + cron digests + docs/config
+- [ ] Push + merge + deploy verify (needs laptop GCM / connected machine)
