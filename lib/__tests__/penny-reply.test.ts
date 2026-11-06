@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { generatePennyReply } from "../penny.ts";
+import { generatePennyReply } from "../penny";
 
 test("generatePennyReply returns a non-empty reply for a simple greeting", async () => {
   const reply = await generatePennyReply("Hey Penny");

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { DEFAULT_PENNY_MODEL, getPennyModel } from "../penny.ts";
+import { DEFAULT_PENNY_MODEL, getPennyModel } from "../penny";
 
 const RETIRED_FLASH_MODELS = new Set([
   "gemini-2.5-flash",
