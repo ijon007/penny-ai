@@ -123,8 +123,8 @@ body {
   background: var(--imsg-blue);
   color: #fff;
   border-radius: 18px;
-  border-bottom-right-radius: 6px;
-  border-top-right-radius: 6px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .imsg-in {
@@ -138,8 +138,8 @@ body {
   background: var(--imsg-gray);
   color: #000;
   border-radius: 18px;
-  border-bottom-left-radius: 6px;
-  border-top-left-radius: 6px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 @media (hover: hover) and (pointer: fine) {

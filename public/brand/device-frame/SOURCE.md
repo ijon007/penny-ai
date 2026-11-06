@@ -1,30 +1,42 @@
-# iPhone hardware frame (bundled)
+# Device frame / Messages mock — source notes
 
-## Local asset
-- `iphone-16-pro-natural-titanium.png` (1350×2760)
-- Optional status bar strip: `status-bar-iphone-16-pro-black.png` (if present)
+Updated: 2026-11-06 (local preview only)
 
-## Source package
-- npm `@mockifydev/react@0.1.0` (MIT) — https://www.npmjs.com/package/@mockifydev/react
-- GitHub: https://github.com/Mecury-Labs/mockify
-- Package path: `assets/devices/iPhone 16 Pro - Natural Titanium.png`
-- Screen geometry (from package `iPhone16Pro` config):
-  - left 0.054815 · top 0.025725 · width 0.88963 · height 0.948188 · radius 0.147407
+## Apple Design Resources license (factual)
 
-## Upstream artwork claim
-Mockify states frames are from **Apple Design Resources** (not recreations).  
-Apple Design Resources are also governed by Apple’s own design-resources license at  
-https://developer.apple.com/design/resources/  
-**MIT covers the Mockify packaging; Apple ADR terms may still apply to the PNG artwork.**  
-Bundled for local marketing mockup preview only; not an Apple endorsement.
+- **License PDF (Apple):**  
+  https://developer.apple.com/support/downloads/terms/apple-design-resources/Apple-Design-Resources-License-20230621-English.pdf  
+- **Local copy:** `docs/licenses/Apple-Design-Resources-License-20230621-English.pdf`
+- **ADR hub:** https://developer.apple.com/design/resources/
 
-## Free / no purchase
-Obtained via free npm MIT package download on 2026-11-06. No paid provision.
+**Restrictions quoted from that PDF (not legal advice):**
 
-## Why this model
-iPhone 16 Pro Natural Titanium: slim black bezel, titanium/silver edge, Dynamic Island cutout — matches requested hardware look for a current-generation Pro mockup.
+1. ADR may be used **solely** for creating mock-ups of UIs for software that runs **only** on Apple OS (macOS/iOS/watchOS/tvOS/visionOS), including showing ADR in screenshots of such mock-ups (§2A).
+2. You **may not embed** ADR in software programs or other products (§2B).
+3. Except as expressly provided, you **may not** use ADR to create/display/distribute **website content** or other work product (§2B).
+4. You **may not** rent/lease/lend/trade/transfer/sell/sublicense or otherwise **redistribute** ADR in an unauthorized way (§2B).
+5. Template Content may not be extracted/repackaged as clip art / stock assets (§2C).
 
-## Current OS / Messages UI evidence (fetched 2026-11-06)
-- Apple marketing OS page (requested as /ios/ios-18/) resolves to **iOS 27** content: https://www.apple.com/ios/ios-18/ (meta title “OS - iOS 27 - Apple”; og image dated 20261105)
-- Apple Support “Use Messages on your iPhone or iPad”: https://support.apple.com/en-us/104982 — published text references Messages features across iOS 18–26+ (incl. Send Later, formatting, polls)
-- This mockup targets **iOS 27-era Messages conversation chrome** (Dynamic Island Pro hardware, floating circular nav controls, large contact header, blue/gray bubbles, translucent composer, light keyboard). Exact pixel UI is a careful recreation — not an Apple screenshot dump.
+**Implication for this repo:** A third-party npm package marked MIT (`@mockifydev/react`) that claims its PNGs are Apple Design Resources does **not** replace Apple’s ADR terms. Previously bundled `iphone-*-titanium.png` frames were **removed from `public/`** for this landing preview because embedding ADR-claimed bezels in website content conflicts with §2B as written. Archived copy (not served): `docs/licenses/device-frame-archive/`.
+
+**Unresolved:** Whether any Apple-written exception covers marketing sites for iMessage agents; treat as unresolved — no legal guarantee here.
+
+## Hardware chrome in the live preview
+
+- **Implementation:** CSS/SVG recreation (slim black bezel + metal edge + Dynamic Island) in `components/imessage-phone.tsx`.
+- **Not** an Apple Design Resources PNG and **not** labeled as a specific unshipped retail SKU in UI copy.
+
+## Messages UI visual references used for craft (Apple Support screenshots)
+
+Fetched 2026-11-06 for visual comparison only (not redistributed in `public/`):
+
+- https://cdsassets.apple.com/live/7WUAS350/images/ios/ios-27-iphone-17-pro-messages-contact-automatically-translate-on.png  
+  (from https://support.apple.com/en-us/104982 — floating light circular controls, Dynamic Island, status 9:41)
+- https://cdsassets.apple.com/live/7WUAS350/images/ios/ios-26-iphone-16-pro-messages-swipe.png  
+  (same Support article — floating white circular controls with soft shadow)
+
+Filenames are Apple CDN asset names; they are evidence of Apple’s published support imagery, not a claim that our CSS recreation is pixel-identical or that a particular OS build is “current” beyond what those pages show.
+
+## Messages app icon (separate asset)
+
+See `public/brand/APPLE_MESSAGES_ICON_SOURCE.md` (App Store / mzstatic artwork via iTunes Lookup). Distinct from ADR device bezels.
