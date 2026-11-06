@@ -41,15 +41,34 @@ const STEPS = [
 function TextPennyButton({
   href,
   className = "",
+  compact = false,
 }: {
   href: string;
   className?: string;
+  compact?: boolean;
 }) {
+  const iconPx = compact ? 18 : 22;
   return (
     <a
       href={href}
-      className={`inline-flex min-h-11 items-center justify-center rounded-full bg-foreground px-7 text-[15px] font-medium tracking-[-0.02em] text-surface transition-[transform,opacity] duration-150 ease-out hover:opacity-[0.9] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent active:scale-[0.97] ${className}`}
+      className={`inline-flex items-center justify-center gap-2.5 rounded-full bg-accent font-medium tracking-[-0.02em] text-white transition-[transform,opacity,background-color] duration-150 ease-out hover:bg-accent-pressed focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-foreground active:scale-[0.97] ${
+        compact
+          ? "min-h-9 px-4 text-[14px]"
+          : "min-h-11 px-6 text-[15px] sm:px-7"
+      } ${className}`}
     >
+      {/* Genuine Apple Messages app icon — see public/brand/APPLE_MESSAGES_ICON_SOURCE.md */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/brand/apple-messages-icon.png"
+        alt=""
+        width={iconPx}
+        height={iconPx}
+        className="shrink-0 rounded-[4.5px]"
+        style={{ width: iconPx, height: iconPx }}
+        decoding="async"
+        draggable={false}
+      />
       Text Penny
     </a>
   );
@@ -68,16 +87,16 @@ export default function Home() {
         Skip to content
       </a>
 
-      <header className="border-b border-hairline/80 bg-background/90 backdrop-blur-md">
+      <header className="border-b border-hairline/80 bg-surface/95 backdrop-blur-md">
         <div className="mx-auto flex h-14 w-full max-w-[1080px] items-center justify-between px-5 sm:h-[3.75rem] sm:px-8 lg:px-10">
           <p className="text-[15px] font-semibold tracking-[-0.03em]">Penny</p>
-          <TextPennyButton href={href} className="min-h-9 px-5 text-[14px]" />
+          <TextPennyButton href={href} compact />
         </div>
       </header>
 
       <main id="main" className="flex flex-1 flex-col">
         {/* Hero */}
-        <section className="border-b border-hairline/80">
+        <section className="border-b border-hairline/80 bg-surface">
           <div className="mx-auto grid w-full max-w-[1080px] grid-cols-1 items-center gap-10 px-5 pt-10 pb-12 sm:gap-12 sm:px-8 sm:pt-14 sm:pb-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(18.5rem,21rem)] lg:gap-x-16 lg:px-10 lg:pt-16 lg:pb-20 xl:gap-x-24">
             <div className="flex flex-col">
               <p className="rise text-[13px] font-medium tracking-[-0.01em] text-secondary">
@@ -111,7 +130,7 @@ export default function Home() {
         {/* How it works — editorial steps, not card grid */}
         <section
           aria-labelledby="how-heading"
-          className="border-b border-hairline/80 bg-surface"
+          className="border-b border-hairline/80"
         >
           <div className="mx-auto w-full max-w-[1080px] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
             <p className="text-[13px] font-medium tracking-[-0.01em] text-accent">
@@ -151,7 +170,7 @@ export default function Home() {
         {/* Use cases */}
         <section
           aria-labelledby="use-heading"
-          className="border-b border-hairline/80"
+          className="border-b border-hairline/80 bg-surface"
         >
           <div className="mx-auto w-full max-w-[1080px] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
             <div className="max-w-[36rem]">
@@ -191,7 +210,7 @@ export default function Home() {
         {/* Honest demo state */}
         <section
           aria-labelledby="demo-heading"
-          className="border-b border-hairline/80 bg-surface"
+          className="border-b border-hairline/80"
         >
           <div className="mx-auto flex w-full max-w-[1080px] flex-col gap-6 px-5 py-14 sm:flex-row sm:items-start sm:justify-between sm:gap-16 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
             <div className="max-w-[28rem]">
@@ -232,7 +251,7 @@ export default function Home() {
         </section>
 
         {/* Closing CTA */}
-        <section className="border-b border-hairline/80">
+        <section className="border-b border-hairline/80 bg-surface">
           <div className="mx-auto flex w-full max-w-[1080px] flex-col items-start gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-16 lg:px-10">
             <div className="max-w-[26rem]">
               <h2 className="text-[clamp(1.5rem,2.8vw,1.85rem)] leading-[1.2] font-semibold tracking-[-0.03em]">
