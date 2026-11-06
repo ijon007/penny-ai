@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Penny",
@@ -10,8 +16,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${GeistSans.variable} h-full antialiased`}>
-      <body className={`${GeistSans.className} flex min-h-full flex-col`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className={`${inter.className} flex min-h-full flex-col`}>
         {children}
       </body>
     </html>

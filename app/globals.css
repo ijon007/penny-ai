@@ -2,33 +2,37 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0a0a0a;
+  --foreground: #1d1d1f;
   --muted: #6e6e73;
-  --subtle: #f5f5f7;
-  --line: #e8e8ed;
-  --bubble-in: #f2f2f7;
-  --bubble-out: #1d1d1f;
+  --hairline: rgba(0, 0, 0, 0.08);
+  --imsg-blue: #007aff;
+  --imsg-blue-pressed: #0066d6;
+  --imsg-gray: #e9e9eb;
+  --imsg-bg: #ffffff;
+  --imsg-chrome: #f2f2f7;
+  --imsg-separator: #c6c6c8;
+  --phone-bezel: #1c1c1e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
-  --color-subtle: var(--subtle);
-  --color-line: var(--line);
-  --color-bubble-in: var(--bubble-in);
-  --color-bubble-out: var(--bubble-out);
-  --font-sans: var(--font-geist-sans);
+  --color-hairline: var(--hairline);
+  --color-imsg-blue: var(--imsg-blue);
+  --color-imsg-blue-pressed: var(--imsg-blue-pressed);
+  --color-imsg-gray: var(--imsg-gray);
+  --color-imsg-bg: var(--imsg-bg);
+  --color-imsg-chrome: var(--imsg-chrome);
+  --color-imsg-separator: var(--imsg-separator);
+  --color-phone-bezel: var(--phone-bezel);
+  --font-sans: var(--font-inter);
 }
 
-html {
-  background: var(--background);
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -41,10 +45,10 @@ body {
   }
 }
 
-@keyframes hero-fade {
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -52,28 +56,56 @@ body {
   }
 }
 
-.hero-enter {
-  animation: hero-fade 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+.rise {
+  animation: rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.hero-enter-delay-1 {
-  animation-delay: 80ms;
+.rise-1 {
+  animation-delay: 60ms;
 }
-
-.hero-enter-delay-2 {
-  animation-delay: 140ms;
+.rise-2 {
+  animation-delay: 120ms;
 }
-
-.hero-enter-delay-3 {
-  animation-delay: 200ms;
+.rise-3 {
+  animation-delay: 180ms;
 }
-
-.hero-enter-delay-4 {
-  animation-delay: 280ms;
+.rise-4 {
+  animation-delay: 240ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-enter {
+  .rise {
     animation: none;
   }
+}
+
+/* iMessage bubble tails via clipped corner on last-in-group */
+.imsg-out {
+  background: var(--imsg-blue);
+  color: #fff;
+  border-radius: 18px;
+  border-bottom-right-radius: 4px;
+}
+
+.imsg-out-mid {
+  background: var(--imsg-blue);
+  color: #fff;
+  border-radius: 18px;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.imsg-in {
+  background: var(--imsg-gray);
+  color: #000;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+}
+
+.imsg-in-mid {
+  background: var(--imsg-gray);
+  color: #000;
+  border-radius: 18px;
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
 }
