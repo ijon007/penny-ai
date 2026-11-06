@@ -127,8 +127,8 @@ export default function Home() {
 
             <div className="rise rise-4 flex flex-col items-center gap-3 lg:items-end">
               <IMessagePhone />
-              <p className="text-center text-[11px] tracking-[-0.01em] text-muted lg:text-right">
-                Illustrative chat · mock ledger
+              <p className="max-w-[17rem] text-center text-[11px] leading-[1.4] tracking-[-0.01em] text-muted lg:text-right">
+                Illustrative Messages UI · demo mock ledger (not live balances)
               </p>
             </div>
           </div>

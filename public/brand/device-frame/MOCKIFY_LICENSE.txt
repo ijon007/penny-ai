@@ -1,0 +1,1 @@
+MIT (per npm registry @mockifydev/react@0.1.0; LICENSE file not present in package tarball)
