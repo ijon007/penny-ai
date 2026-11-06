@@ -45,6 +45,29 @@ body {
   color: var(--foreground);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -89,7 +112,6 @@ body {
   }
 }
 
-/* iMessage bubble tails — product UI replica colors (not brand mark) */
 .imsg-out {
   background: var(--imsg-blue);
   color: #fff;
@@ -118,4 +140,10 @@ body {
   border-radius: 18px;
   border-bottom-left-radius: 6px;
   border-top-left-radius: 6px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.inline-flex:hover {
+    opacity: 0.9;
+  }
 }
