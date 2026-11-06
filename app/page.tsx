@@ -1,19 +1,31 @@
 import { getIMessageNumber, imessageSmsHref } from "@/lib/imessage";
 
-function IMessageGlyph() {
+function MessagePreview() {
   return (
-    <svg
+    <div
       aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="h-5 w-5"
-      fill="none"
+      className="mx-auto w-full max-w-[22rem] rounded-[1.75rem] border border-line bg-subtle/70 p-4 shadow-[0_1px_0_rgba(0,0,0,0.02)]"
     >
-      <rect width="24" height="24" rx="6" fill="currentColor" />
-      <path
-        d="M6.5 9.4c0-2.1 2.4-3.9 5.5-3.9s5.5 1.8 5.5 3.9-2.4 3.9-5.5 3.9c-.5 0-1 0-1.5-.1L7.2 14.6c-.2.1-.4 0-.4-.2l.4-2.1C6.7 11.6 6.5 10.5 6.5 9.4Z"
-        fill="white"
-      />
-    </svg>
+      <div className="mb-4 flex items-center justify-center">
+        <span className="text-[11px] font-medium tracking-[0.08em] text-muted uppercase">
+          Messages
+        </span>
+      </div>
+      <div className="flex flex-col gap-2.5">
+        <div className="self-end max-w-[85%] rounded-[1.15rem] rounded-br-md bg-bubble-out px-3.5 py-2.5 text-[15px] leading-snug text-white">
+          Hey Penny
+        </div>
+        <div className="self-start max-w-[90%] rounded-[1.15rem] rounded-bl-md bg-bubble-in px-3.5 py-2.5 text-[15px] leading-snug text-foreground">
+          Hey — what are we thinking through?
+        </div>
+        <div className="self-end max-w-[85%] rounded-[1.15rem] rounded-br-md bg-bubble-out px-3.5 py-2.5 text-[15px] leading-snug text-white">
+          Help me outline a short pitch
+        </div>
+        <div className="self-start max-w-[92%] rounded-[1.15rem] rounded-bl-md bg-bubble-in px-3.5 py-2.5 text-[15px] leading-snug text-foreground">
+          Sure. Who's it for, and what should they feel after reading it?
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -22,52 +34,43 @@ export default function Home() {
   const href = imessageSmsHref(number);
 
   return (
-    <div className="relative isolate flex min-h-full flex-1 flex-col overflow-hidden">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 grain opacity-[0.07]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-24 top-16 h-64 w-64 rounded-full bg-copper/20 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-16 bottom-10 h-72 w-72 rounded-full bg-imessage/15 blur-3xl"
-      />
-
-      <main className="relative mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-6 py-16 sm:px-8">
-        <div className="mb-8 flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-copper to-copper-deep text-lg font-medium text-paper shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
-            P
-          </span>
-          <span className="text-sm font-medium tracking-[0.18em] text-muted uppercase">
+    <main className="relative flex min-h-full flex-1 flex-col bg-background text-foreground">
+      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-6 sm:px-10 lg:px-16">
+        <header className="hero-enter flex items-center pt-8 sm:pt-10">
+          <p className="text-[15px] font-semibold tracking-[-0.02em] text-foreground">
             Penny
-          </span>
-        </div>
+          </p>
+        </header>
 
-        <h1 className="font-serif text-[2.65rem] leading-[1.08] tracking-tight text-foreground sm:text-5xl">
-          An AI you can just text.
-        </h1>
+        <section className="flex flex-1 flex-col items-center justify-center py-16 sm:py-20 lg:py-24">
+          <div className="w-full max-w-[40rem] text-center">
+            <h1 className="hero-enter hero-enter-delay-1 text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.98] font-semibold tracking-[-0.055em] text-balance text-foreground">
+              An AI you can just text.
+            </h1>
 
-        <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
-          Penny lives in iMessage. Ask anything, think out loud, or bounce an
-          idea — she texts back like a sharp friend who happens to be an
-          assistant.
-        </p>
+            <p className="hero-enter hero-enter-delay-2 mx-auto mt-6 max-w-md text-[17px] leading-relaxed tracking-[-0.01em] text-muted sm:text-[19px]">
+              Penny lives in iMessage. Ask anything, think out loud, or bounce
+              an idea — she texts back.
+            </p>
 
-        <a
-          href={href}
-          className="mt-10 inline-flex w-full items-center justify-center gap-3 rounded-[1.65rem] bg-imessage px-6 py-4 text-base font-semibold text-white shadow-[0_12px_30px_-12px_rgba(52,199,89,0.9)] transition-[transform,background-color] hover:bg-imessage-deep active:scale-[0.98] sm:w-auto sm:self-start"
-        >
-          <IMessageGlyph />
-          Text Penny
-        </a>
+            <div className="hero-enter hero-enter-delay-3 mt-10 flex flex-col items-center gap-3">
+              <a
+                href={href}
+                className="inline-flex min-h-11 min-w-[10.5rem] items-center justify-center rounded-full bg-foreground px-7 text-[15px] font-medium tracking-[-0.01em] text-background transition-[transform,opacity] duration-150 ease-out hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground active:scale-[0.98]"
+              >
+                Text Penny
+              </a>
+              <p className="text-[13px] leading-none tracking-[-0.01em] text-muted">
+                Opens Messages with a hello ready to send.
+              </p>
+            </div>
+          </div>
 
-        <p className="mt-4 text-sm text-muted/80">
-          Opens Messages with a hello already filled in.
-        </p>
-      </main>
-    </div>
+          <div className="hero-enter hero-enter-delay-4 mt-16 w-full sm:mt-20">
+            <MessagePreview />
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }

@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Fraunces, Outfit } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Penny",
@@ -20,11 +10,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${outfit.variable} ${fraunces.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${GeistSans.variable} h-full antialiased`}>
+      <body className={`${GeistSans.className} flex min-h-full flex-col`}>
+        {children}
+      </body>
     </html>
   );
 }
