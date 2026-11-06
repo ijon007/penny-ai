@@ -1,10 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #1d1d1f;
-  --muted: #6e6e73;
-  --hairline: rgba(0, 0, 0, 0.08);
+  color-scheme: light;
+  --background: #f5f5f7;
+  --surface: #ffffff;
+  --foreground: #1c1c1e;
+  --secondary: #636366;
+  --muted: #8e8e93;
+  --hairline: #e5e5ea;
+  --accent: #398057;
+  --accent-pressed: #2f6a48;
   --imsg-blue: #007aff;
   --imsg-blue-pressed: #0066d6;
   --imsg-gray: #e9e9eb;
@@ -12,13 +17,18 @@
   --imsg-chrome: #f2f2f7;
   --imsg-separator: #c6c6c8;
   --phone-bezel: #1c1c1e;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
   --color-muted: var(--muted);
   --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-pressed: var(--accent-pressed);
   --color-imsg-blue: var(--imsg-blue);
   --color-imsg-blue-pressed: var(--imsg-blue-pressed);
   --color-imsg-gray: var(--imsg-gray);
@@ -48,7 +58,7 @@ body {
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -57,20 +67,20 @@ body {
 }
 
 .rise {
-  animation: rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: rise 0.55s var(--ease-out) both;
 }
 
 .rise-1 {
-  animation-delay: 60ms;
+  animation-delay: 40ms;
 }
 .rise-2 {
-  animation-delay: 120ms;
+  animation-delay: 90ms;
 }
 .rise-3 {
-  animation-delay: 180ms;
+  animation-delay: 140ms;
 }
 .rise-4 {
-  animation-delay: 240ms;
+  animation-delay: 190ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -79,7 +89,7 @@ body {
   }
 }
 
-/* iMessage bubble tails via clipped corner on last-in-group */
+/* iMessage bubble tails — product UI replica colors (not brand mark) */
 .imsg-out {
   background: var(--imsg-blue);
   color: #fff;

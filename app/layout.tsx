@@ -11,13 +11,17 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Penny",
   description:
-    "A general-purpose AI you talk to over iMessage. No app to download.",
+    "Personal finance in iMessage. Ask about spending, log expenses, and see mock budgets — just text Penny.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className={`${inter.className} flex min-h-full flex-col`}>
+    <html
+      lang="en"
+      className={`${inter.variable} h-full antialiased`}
+      style={{ colorScheme: "light" }}
+    >
+      <body className={`${inter.className} flex min-h-full flex-col bg-background text-foreground`}>
         {children}
       </body>
     </html>

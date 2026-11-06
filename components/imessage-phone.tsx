@@ -89,7 +89,7 @@ export function IMessagePhone() {
               <BackChevron />
             </button>
             <div className="flex min-w-0 flex-1 flex-col items-center">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d1d1d6] text-[13px] font-semibold tracking-[-0.02em] text-white">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-[13px] font-semibold tracking-[-0.02em] text-[#f5f5f7]">
                 P
               </div>
               <div className="mt-0.5 flex items-center gap-0.5 text-[11px] font-medium tracking-[-0.01em] text-foreground">
@@ -107,37 +107,43 @@ export function IMessagePhone() {
             </button>
           </div>
 
-          {/* Thread */}
+          {/* Thread — illustrative finance sample (demo) */}
           <div className="flex min-h-[22.5rem] flex-col justify-end gap-[3px] bg-imsg-bg px-3 pt-4 pb-2">
             <p className="mb-3 text-center text-[11px] font-medium tracking-[-0.01em] text-[#8e8e93]">
-              Today 9:41 AM
+              Today 9:41 AM · Demo
             </p>
 
             <div className="flex justify-end">
-              <div className="imsg-out-mid max-w-[78%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em]">
-                hey — dinner for 6 on saturday, any ideas?
+              <div className="imsg-out max-w-[78%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em]">
+                how&apos;s my spending this week?
               </div>
             </div>
+
+            <div className="flex justify-start">
+              <div className="imsg-in-mid max-w-[84%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em] text-black">
+                MOCK DATA — groceries $142, about $30 more than usual.
+              </div>
+            </div>
+            <div className="mb-1 flex justify-start">
+              <div className="imsg-in max-w-[84%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em] text-black">
+                Want a quick category chart?
+              </div>
+            </div>
+
             <div className="mb-1 flex justify-end">
               <div className="imsg-out max-w-[78%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em]">
-                one person doesn&apos;t eat dairy
+                spent $12.50 at Blue Bottle
               </div>
             </div>
 
             <div className="flex justify-start">
               <div className="imsg-in-mid max-w-[82%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em] text-black">
-                Roast chicken + big salad. Skip cheese, use olive oil + lemon.
+                $12.50 · Blue Bottle · coffee
               </div>
             </div>
             <div className="mb-1 flex justify-start">
-              <div className="imsg-in max-w-[84%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em] text-black">
-                Want a 20-minute shopping list?
-              </div>
-            </div>
-
-            <div className="flex justify-end">
-              <div className="imsg-out max-w-[70%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em]">
-                yes please
+              <div className="imsg-in max-w-[80%] px-[12px] py-[7px] text-[15.5px] leading-[1.28] tracking-[-0.01em] text-black">
+                Draft ready — tap 👍 to record (demo).
               </div>
             </div>
           </div>
