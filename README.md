@@ -78,3 +78,25 @@ npm run build
 npm run start
 npm run lint
 ```
+
+## Personal finance (iMessage)
+
+Penny is a **personal finance** agent. Ledger defaults to **labeled MOCK DATA** until a bank provider is connected (not implemented yet).
+
+### Required config for finance persistence + digests
+
+| Variable | Purpose |
+| --- | --- |
+| `PENNY_DATABASE_URL` or `DATABASE_URL` or `POSTGRES_URL` | Postgres for user-isolated ledger, pending confirms, opt-ins, event dedupe |
+| `CRON_SECRET` | Bearer token for `/api/cron/finance` |
+| Existing Spectrum + Gemini keys | Messaging + receipt vision |
+
+Local demo only: `PENNY_ALLOW_MEMORY_STORE=1` (ephemeral — not production).
+
+### Manual iMessage checks (after deploy + DB)
+
+1. Text Penny: `balances` → MOCK DATA balances  
+2. `spent $12.50 at Starbucks` → draft + poll; 👍 confirms  
+3. Send receipt image → draft with confirm  
+4. `opt in weekly summary` then wait for cron (or call cron with secret)  
+5. Without opt-in, cron must not message that user  
