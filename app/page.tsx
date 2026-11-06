@@ -57,18 +57,25 @@ function TextPennyButton({
           : "min-h-11 px-6 text-[15px] sm:px-7"
       } ${className}`}
     >
-      {/* Genuine Apple Messages app icon — see public/brand/APPLE_MESSAGES_ICON_SOURCE.md */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/brand/apple-messages-icon.png"
-        alt=""
-        width={iconPx}
-        height={iconPx}
-        className="shrink-0 rounded-[4.5px]"
-        style={{ width: iconPx, height: iconPx }}
-        decoding="async"
-        draggable={false}
-      />
+      {/* Genuine Apple Messages app icon — see public/brand/APPLE_MESSAGES_ICON_SOURCE.md.
+          Light pad only so the green Apple artwork stays readable on brand-green CTAs;
+          artwork itself is not recolored. */}
+      <span
+        className="inline-flex shrink-0 items-center justify-center rounded-[6px] bg-white p-[2px]"
+        aria-hidden
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/apple-messages-icon.png"
+          alt=""
+          width={iconPx}
+          height={iconPx}
+          className="block rounded-[4.5px]"
+          style={{ width: iconPx, height: iconPx }}
+          decoding="async"
+          draggable={false}
+        />
+      </span>
       Text Penny
     </a>
   );
