@@ -145,17 +145,16 @@ export function parseCorrection(text: string): {
   return out;
 }
 
-export const HELP_TEXT = `I'm Penny — your personal finance agent in iMessage (⚠️ MOCK DATA until a bank is linked).
+export const HELP_TEXT = `I'm Penny — personal finance in iMessage.
+
+⚠️ DEMO / MOCK DATA mode: seeded accounts & budgets. Without a database, anything you "save" (expenses, opt-ins) is session-only and will not survive restarts. Automated digests are disabled until durable storage + CRON_SECRET exist.
 
 Try:
-• "balances"
-• "spending" / "budget" / "subscriptions"
+• "balances" / "spending" / "budget" / "subscriptions"
 • "spent $12.50 at Starbucks"
-• send a receipt photo
+• send a receipt photo (confirm before save)
 • "chart"
-• "opt in weekly summary" / "opt out weekly summary"
-• budget alerts & recurring reminders similarly
-• "timezone America/New_York" / "quiet hours 21-8"
+• "opt in weekly summary" (demo note only without DB)
 
-Confirm mapping: 👍 / ❤️ / ✅ confirm · 👎 / ❌ cancel.
-Reply in-thread to correct amount/merchant/category.`;
+Confirm: 👍 / ❤️ / ✅ · Cancel: 👎 / ❌
+Corrections: "amount 12.50" / "category groceries" / "merchant Name"`;

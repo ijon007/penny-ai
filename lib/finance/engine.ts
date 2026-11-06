@@ -127,7 +127,7 @@ export class FinanceEngine {
 
   pendingPrompt(entry: PendingEntry): string {
     return [
-      "Draft expense (MOCK ledger — confirm to save):",
+      "Draft expense (MOCK — confirm to record; demo mode may not persist):",
       `• ${formatMoney(Math.abs(entry.amountMinor))} at ${entry.merchant}`,
       `• Category: ${CATEGORY_LABELS[entry.category]}`,
       `• Date: ${entry.postedAt}`,
@@ -205,6 +205,48 @@ export class FinanceEngine {
       }
       return [...map.entries()].map(([label, minor]) => ({ label, minor }));
     });
+  }
+
+
+  async findPendingByConfirmPrompt(
+    userId: string,
+    promptMessageId: string,
+  ): Promise<PendingEntry | null> {
+    const list = await this.repo.listPending(userId, "pending");
+    return (
+      list.find((p) => p.confirmPromptMessageId === promptMessageId) ?? null
+    );
+  }
+
+  async findPendingByPollGuid(
+    userId: string,
+    pollMessageGuid: string,
+  ): Promise<PendingEntry | null> {
+    const list = await this.repo.listPending(userId, "pending");
+    return list.find((p) => p.pollMessageGuid === pollMessageGuid) ?? null;
+  }
+
+  /** Recurring charges due within [today, today+horizonDays] in user timezone. */
+  async recurringDueSoon(userId: string, horizonDays = 3): Promise<string> {
+    const profile = await this.repo.getOrCreateProfile(userId);
+    const today = todayInTz(profile.timezone);
+    const snap = await this.repo.getSnapshot(userId);
+    const due = snap.recurring.filter((r) => {
+      const diff =
+        (Date.parse(`${r.nextDueOn}T12:00:00Z`) - Date.parse(`${today}T12:00:00Z`)) /
+        86_400_000;
+      return diff >= 0 && diff <= horizonDays;
+    });
+    if (due.length === 0) {
+      return "⚠️ MOCK DATA: no recurring charges due in the next few days.";
+    }
+    return [
+      "⚠️ MOCK DATA recurring due soon:",
+      ...due.map(
+        (r) =>
+          `• ${r.merchant}: ${formatMoney(Math.abs(r.amountMinor))} ${r.cadence} (next ${r.nextDueOn})`,
+      ),
+    ].join("\n");
   }
 
   weeklySummaryText(userId: string): Promise<string> {

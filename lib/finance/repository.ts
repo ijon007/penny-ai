@@ -3,20 +3,29 @@ import {
   isFinanceDbConfigured,
   PostgresFinanceRepository,
 } from "@/lib/finance/postgres-store";
-import {
-  PersistenceUnavailableError,
-  type FinanceRepository,
-} from "@/lib/finance/store";
+import type { FinanceRepository } from "@/lib/finance/store";
 
 const globalForFinance = globalThis as typeof globalThis & {
   pennyFinanceRepo?: FinanceRepository;
   pennyFinanceMemory?: MemoryFinanceRepository;
 };
 
+export type FinancePersistenceMode = "postgres" | "demo_memory";
+
 /**
- * Production path requires Postgres. Tests may inject MemoryFinanceRepository.
- * Set PENNY_ALLOW_MEMORY_STORE=1 only for explicit local demos — never claim it as production.
+ * Mock-first: without Postgres, use an explicit per-process demo memory store.
+ * Mutations are NOT durable across serverless invocations / restarts and must
+ * never be described as saved permanently. Opt-in prefs for cron also do not
+ * survive without Postgres — automated outbound digests stay disabled.
  */
+export function getFinancePersistenceMode(): FinancePersistenceMode {
+  return isFinanceDbConfigured() ? "postgres" : "demo_memory";
+}
+
+export function isDurableFinanceStore(): boolean {
+  return getFinancePersistenceMode() === "postgres";
+}
+
 export function getFinanceRepository(): FinanceRepository {
   if (globalForFinance.pennyFinanceRepo) return globalForFinance.pennyFinanceRepo;
 
@@ -25,17 +34,16 @@ export function getFinanceRepository(): FinanceRepository {
     return globalForFinance.pennyFinanceRepo;
   }
 
-  if (process.env.PENNY_ALLOW_MEMORY_STORE === "1" || process.env.NODE_ENV === "test") {
-    if (!globalForFinance.pennyFinanceMemory) {
-      globalForFinance.pennyFinanceMemory = new MemoryFinanceRepository();
-    }
-    return globalForFinance.pennyFinanceMemory;
+  if (!globalForFinance.pennyFinanceMemory) {
+    globalForFinance.pennyFinanceMemory = new MemoryFinanceRepository();
   }
-
-  throw new PersistenceUnavailableError();
+  return globalForFinance.pennyFinanceMemory;
 }
 
 export function setFinanceRepositoryForTests(repo: FinanceRepository | null): void {
   globalForFinance.pennyFinanceRepo = repo ?? undefined;
   if (!repo) globalForFinance.pennyFinanceMemory = undefined;
 }
+
+export const DEMO_MODE_DISCLAIMER =
+  "⚠️ DEMO / MOCK DATA — seeded ledger; session changes are not durable without a database.";

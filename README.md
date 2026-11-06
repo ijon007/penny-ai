@@ -81,22 +81,51 @@ npm run lint
 
 ## Personal finance (iMessage)
 
-Penny is a **personal finance** agent. Ledger defaults to **labeled MOCK DATA** until a bank provider is connected (not implemented yet).
+Penny is a **personal finance** agent. Default mode is **labeled MOCK / DEMO data** (seeded accounts, budgets, recurring).
 
-### Required config for finance persistence + digests
+### What works without a database (shipped now)
+
+| Interaction | Behavior |
+| --- | --- |
+| Greetings / help / light Q&A | Works; no DB |
+| `balances`, `spending`, `budget`, `subscriptions`, `chart` | Seeded MOCK reads |
+| `spent $… at …` + 👍/poll/corrections | Demo session only — **not durable** across serverless invocations/restarts |
+| Receipt image extract → confirm | Same: demo session only without Postgres |
+| `opt in weekly/budget/recurring` | Recorded in-process only; **automated digests stay OFF** |
+
+### What requires Postgres + CRON_SECRET (not configured yet)
+
+- Durable ledgers, pending drafts, opt-in prefs, webhook event dedupe
+- Automated outbound digests via `GET /api/cron/finance` (daily 14:00 UTC)
+
+Without durable storage the cron route returns `503 scheduler_disabled_demo_mode` and sends nothing.
+
+Env keys (optional until you want durability):
 
 | Variable | Purpose |
 | --- | --- |
-| `PENNY_DATABASE_URL` or `DATABASE_URL` or `POSTGRES_URL` | Postgres for user-isolated ledger, pending confirms, opt-ins, event dedupe |
-| `CRON_SECRET` | Bearer token for `/api/cron/finance` |
-| Existing Spectrum + Gemini keys | Messaging + receipt vision |
+| `PENNY_DATABASE_URL` / `DATABASE_URL` / `POSTGRES_URL` | Durable finance store |
+| `CRON_SECRET` | Bearer auth for cron |
+| Existing Spectrum + Gemini | Messaging + receipt vision |
 
-Local demo only: `PENNY_ALLOW_MEMORY_STORE=1` (ephemeral — not production).
+### Scheduler cadence (when durable)
 
-### Manual iMessage checks (after deploy + DB)
+Cron is **daily 14:00 UTC**, not a true weekly-only job:
 
-1. Text Penny: `balances` → MOCK DATA balances  
-2. `spent $12.50 at Starbucks` → draft + poll; 👍 confirms  
-3. Send receipt image → draft with confirm  
-4. `opt in weekly summary` then wait for cron (or call cron with secret)  
-5. Without opt-in, cron must not message that user  
+- Weekly summaries: Monday local + weekKey dedupe + opt-in
+- Budget warnings: ≥80% + dayKey + opt-in
+- Recurring: due within 3 local days + dayKey + opt-in
+- Quiet hours skip sends
+
+### Tapbacks
+
+Confirm: 👍 / ❤️ / ✅ · Cancel: 👎 / ❌ / ❎ (prefer reacting on the draft prompt)
+
+### Manual iMessage checks (mock, no DB)
+
+1. Text Penny anything friendly → reply (no persistence error)
+2. `balances` → MOCK DATA balances
+3. `spent $12.50 at Starbucks` → draft + poll; 👍 records for this session only
+4. `chart` → spending image
+5. Cron without Postgres → 503, no user messages
+

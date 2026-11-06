@@ -49,3 +49,39 @@ export function cronAuthorized(request: Request, secret = process.env.CRON_SECRE
   const header = request.headers.get("authorization") ?? "";
   return header === `Bearer ${trimmed}`;
 }
+
+export function localWeekday(timezone: string, now = new Date()): number {
+  const short = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    weekday: "short",
+  }).format(now);
+  const map: Record<string, number> = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thu: 4,
+    Fri: 5,
+    Sat: 6,
+  };
+  return map[short] ?? -1;
+}
+
+/**
+ * Cadence note: Vercel cron is daily (14:00 UTC). Weekly digests use weekKey
+ * dedupe AND prefer Monday local so we do not claim a true weekly-only job.
+ */
+export function isPreferredWeeklyDigestDay(
+  timezone: string,
+  preferredWeekday = 1,
+  now = new Date(),
+): boolean {
+  return localWeekday(timezone, now) === preferredWeekday;
+}
+
+export function daysUntil(isoDate: string, todayIso: string): number {
+  return (
+    (Date.parse(`${isoDate}T12:00:00Z`) - Date.parse(`${todayIso}T12:00:00Z`)) /
+    86_400_000
+  );
+}
